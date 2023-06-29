@@ -52,11 +52,11 @@ Request
 Return 
 
 {
-  id: 1
+  id: 1,
   name: "vinicius-edit",
   email: "vinicius-edit@mail.com", 
   address: {
-    id: 1
+    id: 1,
     country: "Brasil",
     state: "RJ"
     city: "Cabo Frio",
@@ -70,12 +70,12 @@ Get User - Só para admins (TOKEN)
 
 [
   {
-    id: 1
+    id: 1,
     name: "vinicius",
     email: "vinicius@mail.com",
-    isAdm: True
+    isAdm: True,
     address: {
-      id: 1
+      id: 1,
       country: "Brasil",
       state: "RJ"
       city: "Araruama",
@@ -89,14 +89,14 @@ Get User By Id - Só para admins e o proprio dono da conta (TOKEN)
 Return 
 
 {
-  id: 1
+  id: 1,
   name: "vinicius",
   email: "vinicius@mail.com",
   isAdm: True
   address: {
-    id: 1
+    id: 1,
     country: "Brasil",
-    state: "RJ"
+    state: "RJ",
     city: "Araruama",
     road: "Rua do morador"
   }
@@ -111,6 +111,8 @@ Request
 {
   name: "PC gamer",
   category: "eletronicos",
+  url: "http://image.png"
+  price: 4999.99,
   descrition: "PC Gamer muito bom",
   stock: 2
 }
@@ -118,9 +120,11 @@ Request
 Return
 
 {
-  id: "1"
+  id: "1",
   name: "PC gamer",
   category: "eletronicos",
+  price: 4999.99
+  url: "http://image.png"
   descrition: "PC Gamer muito bom",
   stock: 2,
   user: {
@@ -137,6 +141,8 @@ Request
 {
   name: "PC gamer boladão",
   category: "eletronicos",
+  price: 4999.99
+  url: "http://image.png"
   descrition: "PC Gamer muito bom, esse é bom mesmo",
   stock: 4
 }
@@ -144,13 +150,15 @@ Request
 Return
 
 {
-  id: "1"
+  id: "1",
   name: "PC gamer boladão",
   category: "eletronicos",
+  price: 4999.99,
+  url: "http://image.png"
   descrition: "PC Gamer muito bom, esse é bom mesmo",
   stock: 4,
   user: {
-    id: 1
+    id: 1,
     name: "vinicius",
     email: "vinicius@mail.com",
   }
@@ -162,9 +170,11 @@ Return
 
 [
   {
-    id: "1"
+    id: "1",
     name: "PC gamer boladão",
     category: "eletronicos",
+    price: 4999.99
+    url: "http://image.png"
     descrition: "PC Gamer muito bom, esse é bom mesmo",
     stock: 4,
     user: {
@@ -180,9 +190,11 @@ Get Product By Id - Qualquer um pode acessar
 Return
 
 {
-  id: "1"
+  id: "1",
   name: "PC gamer boladão",
   category: "eletronicos",
+  price: 4999.99,
+  url: "http://image.png"
   descrition: "PC Gamer muito bom, esse é bom mesmo",
   stock: 4,
   user: {
@@ -192,9 +204,118 @@ Return
   }
 }
 
-Orders
+Cart
 
-Create Order - Qualquer usuário logado
+Create Cart - Somente o usuário dono do cart
 
-localhost:3000/product/<id>/orders
+Request
 
+{
+  product_id: 1
+}
+
+Return
+
+{
+  product: {
+    id: "1",
+    name: "PC gamer boladão",
+    url: "http://image.png"
+    category: "eletronicos"
+    price: 4999.99
+  }
+}
+
+Get items cart - Apenas o usuário dono do carrinho
+
+Return 
+
+[
+  {
+    id: "1"
+    name: "PC gamer boladão",
+    category: "eletronicos",
+    url: "http://image.png"
+    price: 4999.99,
+    stock: 4,
+    user: {
+      id: 1,
+      name: "vinicius",
+      email: "vinicius@mail.com",
+    }
+  }
+]
+
+Orders 
+
+Request
+
+{
+  products_id: [1]
+}
+
+Return 
+
+{
+  id: 1
+  status: "Pedido Realizado",
+  products: [
+    {
+      id: "1"
+      name: "PC gamer boladão",
+      category: "eletronicos",
+      url: "http://image.png"
+      price: 4999.99,
+    }
+  ],
+  user_id: 1
+  createdAt: 2022-11-29 12:59:08.088819
+}
+
+Edit Order - Somente o vendedor
+
+Request
+
+{
+  status: "Em Andamento"
+}
+
+Return
+
+{
+  id: 1
+  status: "Em Andamento",
+  products: [
+    {
+      id: "1"
+      name: "PC gamer boladão",
+      category: "eletronicos",
+      url: "http://image.png"
+      price: 4999.99,
+    }
+  ],
+  user_id: 1
+  createdAt: 2022-11-29 12:59:08.088819
+}
+
+Get Order - somente o usuario que comprou(ver os proprios produtos) e o vendedor ver todos os seus produtos 
+
+Return
+
+[
+  {
+    id: 1
+    status: "Pedido Realizado",
+    products: [
+      {
+        id: "1"
+        name: "PC gamer boladão",
+        category: "eletronicos",
+        url: "http://image.png"
+        price: 4999.99,
+      }
+    ],
+    user_id: 1
+    createdAt: 2022-11-29 12:59:08.088819
+  }
+]
