@@ -1,4 +1,5 @@
 from django.test import TestCase
+from address.models import Address
 
 
 class AddressModelTest(TestCase):
