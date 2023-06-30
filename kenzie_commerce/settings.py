@@ -44,7 +44,13 @@ INSTALLED_APPS = [
     "rest_framework",
     "users",
     "products",
+<<<<<<< HEAD
     "cart",
+=======
+    "address",
+    "cart",
+    "orders",
+>>>>>>> cedd48c8fe1be4e5b7a30305bf6b04e83c242f41
 ]
 
 MIDDLEWARE = [

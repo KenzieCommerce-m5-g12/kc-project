@@ -3,6 +3,7 @@ from rest_framework import generics
 from .models import Cart
 from .serializers import CartSerializer
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAccountOnwer
 
 
 class CartView(generics.ListCreateAPIView):
@@ -18,7 +19,7 @@ class CartView(generics.ListCreateAPIView):
 
 class CartDetailView(generics.DestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAccountOnwer]
 
     queryset = Cart.objects.all()
     serializer_class = CartSerializer

@@ -5,7 +5,7 @@ from address.models import Address
 class AddressModelTest(TestCase):
     def test_country_properties(self):
         expected = 40
-        result = Address._meta_get_field("country").max_length
+        result = Address._meta.get_field("country").max_length
         msg = f"Check if the maximum length of country is {expected} characters"
         self.assertEqual(expected, result, msg)
 
@@ -44,7 +44,8 @@ class AddressModelTest(TestCase):
         self.assertFalse(result, msg)
 
     def test_userId_properties(self):
-        result = Address._meta.get_field("user_id")
+        expected = "PositiveIntegerField"
+        result = Address._meta.get_field("user_id").get_internal_type()
         msg = f"Make sure the user_id property is coming with the correct user values"
         self.assertEqual(result, msg)
 
