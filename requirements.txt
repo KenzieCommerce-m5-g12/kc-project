@@ -11,6 +11,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 drf-spectacular==0.26.3
 executing==1.2.0
+Faker==18.11.2
 inflection==0.5.1
 iniconfig==2.0.0
 ipython==8.14.0
@@ -26,7 +27,6 @@ pickleshare==0.7.5
 platformdirs==3.8.0
 pluggy==1.2.0
 prompt-toolkit==3.0.38
-psycopg2-binary==2.9.6
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.15.1
