@@ -1,6 +1,7 @@
 from django.test import TestCase
 from users.models import User
 
+
 class UserModelTest(TestCase):
     def test_username_properties(self):
         expected = 60
@@ -23,5 +24,3 @@ class UserModelTest(TestCase):
         result = User.__meta.get_field("password").max_length
         msg = f"Check if the max_length is equal to {expected}"
         self.assertEqual(expected, result, msg)
-
-    
