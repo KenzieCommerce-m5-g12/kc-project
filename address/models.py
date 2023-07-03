@@ -8,5 +8,3 @@ class Address(models.Model):
     state = models.CharField(max_length=2)
     city = models.CharField(max_length=40)
     road = models.CharField(max_length=120)
-
-    user = models.OneToOneField("users.User", on_delete=models.CASCADE, related_name="address")
