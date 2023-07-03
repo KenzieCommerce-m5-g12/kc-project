@@ -3,6 +3,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import User
 from users.serializers import UserSerializer
+from users.permissions import MyCustomUserPermission
 
 # Create your views here.
 
@@ -13,6 +14,7 @@ class UserView(ListCreateAPIView):
 
 class UserDetailview(RetrieveUpdateDestroyAPIView):
   authentication_classes = [JWTAuthentication]
+  permission_classes = [MyCustomUserPermission]
   queryset = User.objects.all()
   serializer_class = UserSerializer
 
