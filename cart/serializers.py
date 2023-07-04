@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Cart, CartProduct
 from products.serializers import ProductSerializer
-from users.models import User
+from rest_framework.exceptions import ValidationError
 
 
 class CartProductSerializer(serializers.ModelSerializer):
@@ -17,6 +17,9 @@ class CartProductSerializer(serializers.ModelSerializer):
         ).first()
 
         validated_data.pop("user", None)
+
+        if validated_data["product"].stock == 0:
+            raise ValidationError({"error": "no stock product!"})
 
         return CartProduct.objects.create(cart=cart, **validated_data)
 
