@@ -35,15 +35,7 @@ class CartProductListSerializer(serializers.ModelSerializer):
         read_only_fields = ["cart"]
 
 
-class UserSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id", "username", "email")
-
-
 class CartSerializer(serializers.ModelSerializer):
-    user = UserSerializers()
-
     class Meta:
         model = Cart
         fields = (
@@ -52,3 +44,4 @@ class CartSerializer(serializers.ModelSerializer):
             "user",
         )
         depth = 1
+        extra_kwargs = {"user": {"read_only": True}}
