@@ -8,7 +8,7 @@ from address.models import Address
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password", "isAdmin", "address"]
+        fields = ["id", "username", "email", "password", "isAdmin", "address", "typeUser"]
         extra_kwargs = {"password": {"write_only": True}, "isAdmin": {"default": False}}
 
     address = AddressSerializer()
@@ -23,12 +23,30 @@ class UserSerializer(serializers.ModelSerializer):
         address = Address.objects.create(**address_data)
 
         if validated_data["isAdmin"]:
+            validated_data["typeUser"] = "Admin"
+
+        if validated_data["isAdmin"]:
             return User.objects.create_superuser(**validated_data, address=address)
 
         return User.objects.create_user(**validated_data, address=address)
 
     def update(self, instance, validated_data):
+
+        instance_user = self.context["request"].user
+
+        if  instance_user.isAdmin == False and validated_data["typeUser"] == "Admin":
+            validated_data["typeUser"] = instance_user.typeUser
+
+
         for key, value in validated_data.items():
+            if key == "typeUser" and value == "Admin":
+                instance.isAdmin = True
+            else:
+                instance.isAdmin = False
+            if key == "isAdmin" and value == True:
+                instance.typeUser = "Admin"
+            else:
+                instance.typeUser = "User"
             if key == "password":
                 instance.set_password(value)
             else:
