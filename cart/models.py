@@ -6,6 +6,6 @@ class Cart(models.Model):
         "products.Product", on_delete=models.CASCADE, related_name="cart"
     )
 
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         "users.User", on_delete=models.CASCADE, related_name="cart"
     )

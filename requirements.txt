@@ -27,6 +27,7 @@ pickleshare==0.7.5
 platformdirs==3.8.0
 pluggy==1.2.0
 prompt-toolkit==3.0.38
+psycopg2-binary==2.9.6
 ptyprocess==0.7.0
 pure-eval==0.2.2
 Pygments==2.15.1
@@ -35,6 +36,7 @@ pyrsistent==0.19.3
 pytest==7.4.0
 pytest-django==4.5.2
 pytest-testdox==3.0.1
+python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3
 PyYAML==6.0

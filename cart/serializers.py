@@ -15,6 +15,5 @@ class CartSerializer(serializers.ModelSerializer):
             "category",
             "url",
             "price",
-            "stock",
             "user",
         ]
