@@ -8,4 +8,7 @@ class Product(models.Model):
     url = models.TextField()
     description = models.TextField()
     stock = models.PositiveIntegerField()
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="products")
+
+    user = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, related_name="products"
+    )
