@@ -9,7 +9,9 @@ class StatusChoices(models.TextChoices):
 
 class Orders(models.Model):
     status = models.CharField(
-        max_length=25, choices=StatusChoices.choices, default=StatusChoices.EM_ANDAMENTO
+        max_length=25,
+        choices=StatusChoices.choices,
+        default=StatusChoices.PEDIDO_REALIZADO,
     )
     products = models.ManyToManyField("products.Product", related_name="orders")
     user = models.ForeignKey(
