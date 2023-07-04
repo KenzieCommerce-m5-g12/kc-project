@@ -4,5 +4,5 @@ from users.models import User
 
 
 class IsAccountOnwer(permissions.BasePermission):
-    def has_object_permission(self, request: Request, view: View, obj: User) -> bool:
+    def has_object_permission(self, request: Request, view: View, obj: User):
         return request.user == obj
