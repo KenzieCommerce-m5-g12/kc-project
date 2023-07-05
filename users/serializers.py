@@ -14,7 +14,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     address = AddressSerializer()
 
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
 
     def create(self, validated_data: dict) -> User:
         address_data = validated_data.pop("address")
@@ -60,3 +62,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class UserSerializerInProduct(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "email"]

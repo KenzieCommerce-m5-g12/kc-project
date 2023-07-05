@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from products.models import Product
-from users.serializers import UserSerializer
+from users.serializers import UserSerializerInProduct
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializerInProduct(read_only=True)
 
     class Meta:
         model = Product
@@ -16,6 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "url",
             "description",
             "stock",
+            "is_available",
             "user",
         ]
 
@@ -25,9 +26,17 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Product.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Product, validated_data):
         for key, value in validated_data.items():
-            setattr(instance, key, value)
+            if key == "stock":
+                if value < 1:
+                    print(instance.is_available)
+                    print("ok")
+                    instance.is_available = False
+                else:
+                    instance.is_available = True
+            else:
+                setattr(instance, key, value)
 
         instance.save()
 
