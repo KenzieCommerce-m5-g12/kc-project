@@ -20,3 +20,9 @@ class OrdersSerializer(serializers.ModelSerializer):
             product.pop("user", None)
             product.pop("stock", None)
         return product_serializer.data
+
+    def validate(self, attrs):
+        products = self.initial_data.get("products", [])
+        if not products:
+            raise serializers.ValidationError("Empty product list is not allowed.")
+        return attrs

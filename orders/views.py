@@ -24,6 +24,13 @@ class OrderListCreateView(ListCreateAPIView):
         if products:
             for product_id in products:
                 product = get_object_or_404(Product, id=product_id)
+                if product.stock < 1:
+                    raise ValidationError(
+                        "Insufficient stock for product: {}".format(product.name)
+                    )
+                product.stock = product.stock - 1
+                product.save()
+
                 order.products.add(product)
             order.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
