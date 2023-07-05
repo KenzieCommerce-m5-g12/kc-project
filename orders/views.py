@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from cart.models import Cart
 from products.models import Product
 from .permissions import CanChangeOrderStatus
 from rest_framework.generics import *
@@ -10,6 +11,7 @@ from orders.models import Orders
 from orders.serializers import OrdersSerializer
 from rest_framework.response import Response
 from rest_framework.views import Response, status
+from rest_framework import serializers
 
 
 class OrderListCreateView(ListCreateAPIView):
@@ -19,21 +21,35 @@ class OrderListCreateView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        products = self.request.data.get("products", [])
-        order = serializer.save(user=self.request.user)
-        if products:
-            for product_id in products:
+        user = self.request.user
+
+        cart = get_object_or_404(Cart.objects.filter(user=user))
+
+        product_ids = cart.products_cart.values_list("id", flat=True)
+
+        if product_ids:
+            serializer.validated_data["products"] = product_ids
+
+            order = serializer.save(user=user)
+
+            for product_id in product_ids:
                 product = get_object_or_404(Product, id=product_id)
                 if product.stock < 1:
                     raise ValidationError(
                         "Insufficient stock for product: {}".format(product.name)
                     )
-                product.stock = product.stock - 1
+                product.stock -= 1
                 product.save()
 
-                order.products.add(product)
-            order.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                cart.products_cart.remove(product)
+
+            cart.products_cart.clear()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            raise serializers.ValidationError(
+                "O carrinho está vazio. Adicione produtos antes de criar um pedido."
+            )
 
 
 class OrderRetrieveUpdateView(RetrieveUpdateDestroyAPIView):
