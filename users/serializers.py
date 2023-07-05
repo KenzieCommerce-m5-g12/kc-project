@@ -3,6 +3,7 @@ from rest_framework.validators import UniqueValidator
 from users.models import User
 from address.serializers import AddressSerializer
 from address.models import Address
+from products.models import Product
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -29,6 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data, address=address)
 
     def update(self, instance, validated_data):
+        try:
+            Product.objects.get(user_id=instance.id)
+
+            type_user = "Seller"
+        except:
+            type_user = "User"
 
         instance_user = self.context["request"].user
 
@@ -44,7 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
             if key == "isAdmin" and value == True:
                 instance.typeUser = "Admin"
             else:
-                instance.typeUser = "User"
+                instance.typeUser = type_user
             if key == "password":
                 instance.set_password(value)
             else:
