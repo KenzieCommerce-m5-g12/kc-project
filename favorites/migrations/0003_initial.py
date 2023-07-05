@@ -9,17 +9,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("orders", "0002_initial"),
+        ("favorites", "0002_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="orders",
+            model_name="favorite",
             name="user",
-            field=models.ForeignKey(
+            field=models.OneToOneField(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="orders",
+                related_name="favorite",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),

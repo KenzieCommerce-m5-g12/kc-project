@@ -19,7 +19,7 @@ class CartProductSerializer(serializers.ModelSerializer):
         validated_data.pop("user", None)
 
         if validated_data["product"].stock == 0:
-            raise ValidationError({"error": "no stock product!"})
+            raise ValidationError({"error": "Insufficient stock product!"})
 
         return CartProduct.objects.create(cart=cart, **validated_data)
 

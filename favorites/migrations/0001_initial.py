@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Cart",
+            name="Favorite",
             fields=[
                 (
                     "id",
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="CartProduct",
+            name="FavoriteProduct",
             fields=[
                 (
                     "id",
@@ -40,11 +40,11 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "cart",
+                    "favorite",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="cart_data",
-                        to="cart.cart",
+                        related_name="favorites_pivo",
+                        to="favorites.favorite",
                     ),
                 ),
             ],
