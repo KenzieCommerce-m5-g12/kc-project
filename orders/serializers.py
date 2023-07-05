@@ -22,7 +22,8 @@ class OrdersSerializer(serializers.ModelSerializer):
         return product_serializer.data
 
     def validate(self, attrs):
-        products = self.initial_data.get("products", [])
-        if not products:
-            raise serializers.ValidationError("Empty product list is not allowed.")
+        if self.instance is None:
+            products = self.initial_data.get("products", [])
+            if not products:
+                raise serializers.ValidationError("Empty product list is not allowed.")
         return attrs
