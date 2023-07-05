@@ -7,5 +7,6 @@ class CanChangeOrderStatus(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         user = request.user
         if user.is_authenticated:
-            return obj.user == user
+            if user.typeUser == "Seller":
+                return obj.user == user
         return False
