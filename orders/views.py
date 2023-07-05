@@ -20,6 +20,16 @@ class OrderListCreateView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Orders.objects.all()
+
+        # Se o usuário não for administrador, filtrar pelos pedidos do próprio usuário
+        if not user.is_staff:
+            queryset = queryset.filter(user=user)
+
+        return queryset
+
     def perform_create(self, serializer):
         user = self.request.user
 
