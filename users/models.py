@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class TypeUserChoices(models.TextChoices):
-    USER = "User"
-    SELLER = "Seller"
-    ADMIN = "Admin"
+    USER = "user"
+    SELLER = "seller"
+    ADMIN = "admin"
 
 
 class User(AbstractUser):
