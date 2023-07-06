@@ -68,3 +68,11 @@ class UserSerializerInProduct(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email"]
+
+
+class UserSalesSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "address"]
