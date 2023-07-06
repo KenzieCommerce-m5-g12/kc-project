@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "address",
     "orders",
     "favorites",
+    "drf_spectacular"
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,14 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'KC_COMMERCE',
+    'DESCRIPTION': 'API para comércios. Compra, venda, carrinho, pedidos e lista de desejos.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
