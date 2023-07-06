@@ -33,9 +33,9 @@ class ProductSerializer(serializers.ModelSerializer):
             if key == "stock":
                 if value < 1:
                     print(instance.is_available)
-                    print("ok")
                     instance.is_available = False
                 else:
+                    instance.stock = value
                     instance.is_available = True
             else:
                 setattr(instance, key, value)
@@ -68,3 +68,16 @@ class ProductInSalesSerializer(serializers.ModelSerializer):
             "orders"
             ]
         depth = 2
+
+
+class ProductInOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            "id",
+            "name",
+            "category",
+            "price",
+            "url",
+            "description",
+        ]
