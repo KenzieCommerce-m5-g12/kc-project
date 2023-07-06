@@ -679,7 +679,7 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/ProductInOrder'
           readOnly: true
         user:
           allOf:
@@ -725,7 +725,7 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/ProductInOrder'
           readOnly: true
         user:
           allOf:
@@ -828,6 +828,33 @@ components:
       - stock
       - url
       - user
+    ProductInOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 140
+        category:
+          type: string
+          maxLength: 20
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        url:
+          type: string
+        description:
+          type: string
+      required:
+      - category
+      - description
+      - id
+      - name
+      - price
+      - url
     ProductInSales:
       type: object
       properties:
