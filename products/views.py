@@ -8,11 +8,6 @@ from drf_spectacular.utils import extend_schema
 
 
 class ProductView(generics.ListCreateAPIView):
-    """
-    As permissões são as padrões, nao são as específicas da regra de negócio.
-    Implementar depois.
-    """
-
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
