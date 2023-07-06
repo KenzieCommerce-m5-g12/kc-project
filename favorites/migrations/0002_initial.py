@@ -8,26 +8,26 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("cart", "0001_initial"),
+        ("favorites", "0001_initial"),
         ("products", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="cartproduct",
+            model_name="favoriteproduct",
             name="product",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="product_data",
+                related_name="product_pivo",
                 to="products.product",
             ),
         ),
         migrations.AddField(
-            model_name="cart",
-            name="products_cart",
+            model_name="favorite",
+            name="products_favorite",
             field=models.ManyToManyField(
-                related_name="cart_products",
-                through="cart.CartProduct",
+                related_name="favorite_products",
+                through="favorites.FavoriteProduct",
                 to="products.product",
             ),
         ),

@@ -1,17 +1,17 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import generics
-from .models import Cart, CartProduct
+from .models import Favorite, FavoriteProduct
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .serializers import CartProductSerializer, CartProductListSerializer
+from .serializers import FavoritesProductSerializer, FavoriteListSerializer
 
 
-class CartView(generics.CreateAPIView):
+class FavoritesView(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = CartProduct.objects.all()
-    serializer_class = CartProductSerializer
+    queryset = FavoriteProduct.objects.all()
+    serializer_class = FavoritesProductSerializer
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -21,28 +21,28 @@ class CartView(generics.CreateAPIView):
         return super().post(request, *args, **kwargs)
 
 
-class GetCartView(generics.ListAPIView):
+class FavoritesListView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = CartProduct.objects.all()
-    serializer_class = CartProductListSerializer
+    queryset = FavoriteProduct.objects.all()
+    serializer_class = FavoriteListSerializer
 
     def get_queryset(self):
-        cart = get_object_or_404(Cart.objects.filter(user=self.request.user))
-        cart_products = CartProduct.objects.filter(cart=cart)
-        return cart_products
+        favorites = get_object_or_404(Favorite.objects.filter(user=self.request.user))
+        data_products = FavoriteProduct.objects.filter(favorite=favorites)
+        return data_products
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
 
-class CartDetailView(generics.DestroyAPIView):
+class FavoritesDetailView(generics.DestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = CartProduct.objects.all()
-    serializer_class = CartProductSerializer
+    queryset = FavoriteProduct.objects.all()
+    serializer_class = FavoritesProductSerializer
 
     def delete(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)
