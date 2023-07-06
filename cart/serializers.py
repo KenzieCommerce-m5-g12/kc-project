@@ -15,7 +15,8 @@ class CartProductSerializer(serializers.ModelSerializer):
         cart_product = CartProduct.objects.filter(
             cart=cart, product=validated_data["product"]
         ).first()
-
+        if cart_product:
+            raise ValidationError({"message": "This product already exist"})
         validated_data.pop("user", None)
 
         if validated_data["product"].stock == 0:
