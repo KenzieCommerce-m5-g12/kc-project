@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         address = Address.objects.create(**address_data)
 
         if validated_data["isAdmin"]:
-            validated_data["typeUser"] = "Admin"
+            validated_data["typeUser"] = "admin"
 
         if validated_data["isAdmin"]:
             return User.objects.create_superuser(**validated_data, address=address)
@@ -35,23 +35,23 @@ class UserSerializer(serializers.ModelSerializer):
         try:
             Product.objects.get(user_id=instance.id)
 
-            type_user = "Seller"
+            type_user = "seller"
         except:
-            type_user = "User"
+            type_user = "user"
 
         instance_user = self.context["request"].user
 
-        if  instance_user.isAdmin == False and validated_data["typeUser"] == "Admin":
+        if  instance_user.isAdmin == False and validated_data["typeUser"] == "admin":
             validated_data["typeUser"] = instance_user.typeUser
 
 
         for key, value in validated_data.items():
-            if key == "typeUser" and value == "Admin":
+            if key == "typeUser" and value == "admin":
                 instance.isAdmin = True
             else:
                 instance.isAdmin = False
             if key == "isAdmin" and value == True:
-                instance.typeUser = "Admin"
+                instance.typeUser = "admin"
             else:
                 instance.typeUser = type_user
             if key == "password":
@@ -68,3 +68,11 @@ class UserSerializerInProduct(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email"]
+
+
+class UserSalesSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "address"]
