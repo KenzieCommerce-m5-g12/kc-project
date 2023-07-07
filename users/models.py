@@ -14,7 +14,7 @@ class User(AbstractUser):
     isAdmin = models.BooleanField(default=False, null=True)
     email = models.EmailField(max_length=120, unique=True)
     typeUser = models.CharField(
-        choices=TypeUserChoices.choices, default=TypeUserChoices.USER
+        choices=TypeUserChoices.choices, default=TypeUserChoices.USER, null=True
     )
 
     address = models.OneToOneField(
