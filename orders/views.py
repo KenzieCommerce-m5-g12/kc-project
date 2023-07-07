@@ -53,6 +53,7 @@ class OrderListCreateView(ListCreateAPIView):
                 if product.stock == 0:
                     product.is_available = False
 
+                order = serializer.save(user=user, seller_id=product.user.pk)
                 product.save()
 
                 cart.products_cart.remove(product)
@@ -84,15 +85,15 @@ class OrderRetrieveUpdateView(RetrieveUpdateDestroyAPIView):
             instance.save()
 
             # Verifica se o status foi alterado
-            if previous_status != instance.status:
-                # Lógica para enviar o e-mail
-                subject = "Atualização do status do pedido"
-                message = (
-                    f"O status do seu pedido foi atualizado para: {instance.status}"
-                )
-                from_email = settings.EMAIL_HOST_USER
-                to_email = instance.user.email
-                send_mail(subject, message, from_email, [to_email])
+            # if previous_status != instance.status:
+            #     # Lógica para enviar o e-mail
+            #     subject = "Atualização do status do pedido"
+            #     message = (
+            #         f"O status do seu pedido foi atualizado para: {instance.status}"
+            #     )
+            #     from_email = settings.EMAIL_HOST_USER
+            #     to_email = instance.user.email
+            #     send_mail(subject, message, from_email, [to_email])
 
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -17,4 +17,5 @@ class Orders(models.Model):
     user = models.ForeignKey(
         "users.User", on_delete=models.CASCADE, related_name="orders"
     )
+    seller_id = models.IntegerField(null=True)
     createdAt = models.DateTimeField(auto_now_add=True)

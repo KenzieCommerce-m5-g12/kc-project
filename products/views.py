@@ -3,13 +3,13 @@ from products.models import Product
 from products.serializers import ProductSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from products.permissions import IsOwnerOrAdmin
+from products.permissions import IsOwnerOrAdmin, IsSeller
 from drf_spectacular.utils import extend_schema
 
 
 class ProductView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsSeller]
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -22,7 +22,9 @@ class ProductView(generics.ListCreateAPIView):
 
         product_category = self.request.query_params.get("category")
         if product_category:
-            queryset = Product.objects.filter(category__icontains=product_category)
+            queryset = Product.objects.filter(
+                category__icontains=product_category
+                )
             return queryset
 
         product_id = self.request.query_params.get("id")
