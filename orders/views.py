@@ -49,7 +49,7 @@ class OrderListCreateView(ListCreateAPIView):
                         "Insufficient stock for product: {}".format(product.name)
                     )
                 product.stock -= 1
-                
+
                 if product.stock == 0:
                     product.is_available = False
 
