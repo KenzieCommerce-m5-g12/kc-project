@@ -1,11 +1,9 @@
-# kc-project
+# 🛍 kc-project 🛍
 
 ## O que é?
-
 kc_project API (Kenzie Commerce Project) é uma API que genrencia dados de compra e venda de produtos variados por seus respectivos usuários (clientes e/ou vendedores), podendo anunciar produtos à venda e também comprar de outros usuários.
 
 ## O que ela faz?
-
 O kc_project é capaz de:
 
 - Criação de usuário (login e senha);
@@ -17,7 +15,7 @@ O kc_project é capaz de:
 - Faz envio de e-mails ao comprador conforme o vendedor atualiza o status da compra.
 - Os usuários (vendedores e clientes) podem criar a sua própria lista de desejos.
 
-## Como rodar a aplicação?
+## 🧑‍💻 Como rodar a aplicação?
 
 1. Crie um ambiente virtual com o comando:
 
@@ -69,9 +67,9 @@ python manage.py migrate
 ```
 
 
-## Configuração do envio de email:
+## 📨 Configuração do envio de email:
 
-### Oulook
+### 📬 Oulook 
 
 Para configurar o envio de email pelo django usando o Outlook, configure o seu arquivo .env:
 ```properties
@@ -89,7 +87,7 @@ E na sua conta Outlook:
 5. E, em "senhas de aplicativo", acesse "Criar uma nova senha de aplicativo";
 6. Use a senha criada no campo EMAIL_HOST_PASSWORD do arquivo .env;
 
-### Gmail
+### 📬 Gmail
 
 ```properties
 EMAIL_HOST=smtp.gmail.com
