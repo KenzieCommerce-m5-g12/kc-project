@@ -79,7 +79,7 @@ EMAIL_HOST_USER=seu_email
 EMAIL_HOST_PASSWORD=senha_de_aplicativo
 ```
 
-E na sua conta Outlook:
+Para gerar a senha de aplicativo no Outlook:
 1. Entre nas configurações da conta;
 2. Entre em "Segurança";
 3. Entre em "Opções de segurança avançadas";
@@ -88,7 +88,7 @@ E na sua conta Outlook:
 6. Use a senha criada no campo EMAIL_HOST_PASSWORD do arquivo .env;
 
 ### 📬 Gmail
-
+Para configurar o envio de email pelo django usando o Gmail, configure o seu arquivo .env:
 ```properties
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
@@ -96,6 +96,7 @@ EMAIL_HOST_USER=seu_email
 EMAIL_HOST_PASSWORD=senha_de_aplicativo
 ```
 
+Para gerar a senha de aplicativo no Outlook:
 1. Entre nas configurações da conta Google;
 2. Clique em Segurança;
 3. Habilite a Verificação em duas etapas;
