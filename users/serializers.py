@@ -10,7 +10,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email", "password", "isAdmin", "address", "typeUser"]
-        extra_kwargs = {"password": {"write_only": True}, "isAdmin": {"default": False}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "isAdmin": {"default": False},
+            "typeUser": {"default": "user"}}
 
     address = AddressSerializer()
 
@@ -25,6 +28,9 @@ class UserSerializer(serializers.ModelSerializer):
 
         if validated_data["isAdmin"]:
             validated_data["typeUser"] = "admin"
+
+        if validated_data["typeUser"] == "admin":
+            validated_data["isAdmin"] = True
 
         if validated_data["isAdmin"]:
             return User.objects.create_superuser(**validated_data, address=address)
@@ -41,16 +47,15 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance_user = self.context["request"].user
 
-        if  instance_user.isAdmin == False and validated_data["typeUser"] == "admin":
+        if instance_user.isAdmin and validated_data["typeUser"] == "admin":
             validated_data["typeUser"] = instance_user.typeUser
-
 
         for key, value in validated_data.items():
             if key == "typeUser" and value == "admin":
                 instance.isAdmin = True
             else:
                 instance.isAdmin = False
-            if key == "isAdmin" and value == True:
+            if key == "isAdmin" and value:
                 instance.typeUser = "admin"
             else:
                 instance.typeUser = type_user
