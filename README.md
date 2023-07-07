@@ -96,7 +96,7 @@ EMAIL_HOST_USER=seu_email
 EMAIL_HOST_PASSWORD=senha_de_aplicativo
 ```
 
-Para gerar a senha de aplicativo no Outlook:
+Para gerar a senha de aplicativo no Gmail:
 1. Entre nas configurações da conta Google;
 2. Clique em Segurança;
 3. Habilite a Verificação em duas etapas;
