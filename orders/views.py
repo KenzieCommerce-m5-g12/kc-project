@@ -24,7 +24,6 @@ class OrderListCreateView(ListCreateAPIView):
         user = self.request.user
         queryset = Orders.objects.all()
 
-        # Se o usuário não for administrador, filtrar pelos pedidos do próprio usuário
         if not user.is_staff:
             queryset = queryset.filter(user=user)
 
@@ -40,7 +39,7 @@ class OrderListCreateView(ListCreateAPIView):
         if product_ids:
             serializer.validated_data["products"] = product_ids
 
-            order = serializer.save(user=user)
+            serializer.save(user=user)
 
             for product_id in product_ids:
                 product = get_object_or_404(Product, id=product_id)
@@ -53,7 +52,7 @@ class OrderListCreateView(ListCreateAPIView):
                 if product.stock == 0:
                     product.is_available = False
 
-                order = serializer.save(user=user, seller_id=product.user.pk)
+                serializer.save(user=user, seller_id=product.user.pk)
                 product.save()
 
                 cart.products_cart.remove(product)
@@ -84,16 +83,14 @@ class OrderRetrieveUpdateView(RetrieveUpdateDestroyAPIView):
             instance.status = serializer.validated_data["status"]
             instance.save()
 
-            # Verifica se o status foi alterado
-            # if previous_status != instance.status:
-            #     # Lógica para enviar o e-mail
-            #     subject = "Atualização do status do pedido"
-            #     message = (
-            #         f"O status do seu pedido foi atualizado para: {instance.status}"
-            #     )
-            #     from_email = settings.EMAIL_HOST_USER
-            #     to_email = instance.user.email
-            #     send_mail(subject, message, from_email, [to_email])
+            if previous_status != instance.status:
+                subject = "Atualização do status do pedido"
+                message = (
+                    f"O status do seu pedido foi atualizado para: {instance.status}"
+                )
+                from_email = settings.EMAIL_HOST_USER
+                to_email = instance.user.email
+                send_mail(subject, message, from_email, [to_email])
 
         self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
