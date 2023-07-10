@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -35,11 +35,11 @@ class OrderListCreateView(ListCreateAPIView):
         cart = get_object_or_404(Cart.objects.filter(user=user))
 
         product_ids = cart.products_cart.values_list("id", flat=True)
+        products = ""
+        total = 0
 
         if product_ids:
             serializer.validated_data["products"] = product_ids
-
-            serializer.save(user=user)
 
             for product_id in product_ids:
                 product = get_object_or_404(Product, id=product_id)
@@ -54,10 +54,32 @@ class OrderListCreateView(ListCreateAPIView):
 
                 serializer.save(user=user, seller_id=product.user.pk)
                 product.save()
+                products += f'<p>Produto: {product.name}, valor: {product.price}<br></p>'
+                total = total + product.price
 
                 cart.products_cart.remove(product)
 
             cart.products_cart.clear()
+
+            email_body = f"""\
+                <html>
+                <head></head>
+                <body>
+                    <h2>Olá, {user.username}!</h2>
+                    <p>Sua compra foi recebida:</p>
+                    {products}
+                    <h4>Valor total: {total}</h4>
+                </body>
+                </html>
+                """
+            email = EmailMessage(
+                "Pedido Recebido",
+                email_body,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[user.email]
+                )
+            email.content_subtype = "html"
+            email.send()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
