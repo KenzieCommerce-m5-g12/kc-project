@@ -22,9 +22,7 @@ class ProductView(generics.ListCreateAPIView):
 
         product_category = self.request.query_params.get("category")
         if product_category:
-            queryset = Product.objects.filter(
-                category__icontains=product_category
-                )
+            queryset = Product.objects.filter(category__icontains=product_category)
             return queryset
 
         product_id = self.request.query_params.get("id")
