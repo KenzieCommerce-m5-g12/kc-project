@@ -1,5 +1,7 @@
 # 🛍 kc-project 🛍
 
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=KC_G12_M5&uri=https%3A%2F%2Fraw.githubusercontent.com%2FKenzieCommerce-m5-g12%2Fkc-project%2Fdevelop%2FInsomnia_2023-07-07.json)
+
 ## O que é?
 kc_project API (Kenzie Commerce Project) é uma API que genrencia dados de compra e venda de produtos variados por seus respectivos usuários (clientes e/ou vendedores), podendo anunciar produtos à venda e também comprar de outros usuários.
 
