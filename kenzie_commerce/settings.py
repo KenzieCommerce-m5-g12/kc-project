@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS +=[RENDER_EXTERNAL_HOSTNAME, "0.0.0.0"]
+    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME, "0.0.0.0"]
 
 
 # Application definition
@@ -54,12 +54,14 @@ INSTALLED_APPS = [
     "address",
     "orders",
     "favorites",
-    "drf_spectacular"
+    "drf_spectacular",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -68,6 +70,32 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://localhost:3000",
+    "http://127.0.0.1:9000",
+]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
 
 ROOT_URLCONF = "kenzie_commerce.urls"
 
@@ -104,12 +132,13 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:
     db_from_env = dj_database_url.config(
-        default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-    DATABASES['default'].update(db_from_env)
+        default=DATABASE_URL, conn_max_age=500, ssl_require=True
+    )
+    DATABASES["default"].update(db_from_env)
     DEBUG = False
 
 
@@ -177,13 +206,11 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
-REST_FRAMEWORK = {
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
-}
+REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'KC_COMMERCE',
-    'DESCRIPTION': 'API para comércios. Compra, venda, carrinho, pedidos e lista de desejos.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "KC_COMMERCE",
+    "DESCRIPTION": "API para comércios. Compra, venda, carrinho, pedidos e lista de desejos.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
