@@ -54,7 +54,7 @@ class OrderListCreateView(ListCreateAPIView):
 
                 serializer.save(user=user, seller_id=product.user.pk)
                 product.save()
-                products += f'<p>Produto: {product.name}, valor: {product.price}<br></p>'
+                products += f'<p>Produto: {product.name} --- Valor: R$ {product.price}</p><br>'
                 total = total + product.price
 
                 cart.products_cart.remove(product)
